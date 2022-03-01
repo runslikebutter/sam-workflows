@@ -1,0 +1,59 @@
+name: deploy_shared_resources
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_REGION:
+        required: true
+
+jobs:
+  deploy_shared_resources:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+
+      - name: Configure Variables
+        id: vars
+        env:
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          REF: ${{ github.event.ref }}
+        run: |
+          APP_NAME=${REPOSITORY_NAME::-4}
+          BRANCH_NAME=${REF#refs/heads/}
+          echo "::set-output name=app_name::$APP_NAME"
+          echo "::set-output name=branch_name::$BRANCH_NAME"
+          echo "APP_NAME=$APP_NAME"
+          echo "BRANCH_NAME=$BRANCH_NAME"
+          echo "GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: SAM Validate
+        run: |
+          sam validate
+
+      - name: SAM Build
+        run: |
+          sam build
+
+      - name: SAM Deploy
+        env:
+          APP_NAME: ${{ steps.vars.outputs.app_name }}
+          BRANCH_NAME: ${{ steps.vars.outputs.branch_name }}
+        run: |
+          sam deploy \
+            --stack-name "$APP_NAME" \
+            --s3-prefix "$APP_NAME/$BRANCH_NAME/$GITHUB_RUN_NUMBER"
