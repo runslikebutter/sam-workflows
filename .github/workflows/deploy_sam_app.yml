@@ -11,7 +11,7 @@ on:
         required: true
 
 jobs:
-  sam_deploy:
+  deploy_sam_app:
     runs-on: ubuntu-latest
     defaults:
       run:
