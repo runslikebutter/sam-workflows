@@ -1,4 +1,4 @@
-name: sam_deploy
+name: deploy_sam_app
 
 on:
   workflow_call:

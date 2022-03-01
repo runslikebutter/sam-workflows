@@ -1,4 +1,4 @@
-name: sam_delete
+name: delete_sam_app
 
 on:
   workflow_call:
