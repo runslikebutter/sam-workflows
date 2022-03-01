@@ -1,0 +1,51 @@
+name: sam_delete
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_REGION:
+        required: true
+
+jobs:
+  sam_delete:
+    if: github.event.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+
+      - name: Configure Variables
+        id: vars
+        env:
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          REF: ${{ github.event.ref }}
+        run: |
+          APP_NAME=${REPOSITORY_NAME::-4}
+          BRANCH_NAME=${REF#refs/heads/}
+          echo "::set-output name=app_name::$APP_NAME"
+          echo "::set-output name=branch_name::$BRANCH_NAME"
+          echo "APP_NAME=$APP_NAME"
+          echo "BRANCH_NAME=$BRANCH_NAME"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: SAM Delete
+        env:
+          APP_NAME: ${{ steps.vars.outputs.app_name }}
+          BRANCH_NAME: ${{ steps.vars.outputs.branch_name }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          sam delete \
+            --stack-name "$APP_NAME-$BRANCH_NAME" \
+            --region "$AWS_REGION" \
+            --no-prompts
