@@ -26,7 +26,6 @@ jobs:
         run: |
           cd functions
           yarn install
-          yarn build
           ls
           cd ..
           ls
