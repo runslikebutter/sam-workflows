@@ -22,12 +22,11 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@v2
 
-      - name: Yarn install and build
+      - name: Yarn Install and Build
         run: |
           cd functions
           yarn install
           yarn build
-          cd ..
 
       - name: Configure Variables
         id: vars
