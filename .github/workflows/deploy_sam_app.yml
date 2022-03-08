@@ -2,6 +2,10 @@ name: deploy_sam_app
 
 on:
   workflow_call:
+    inputs:
+      node:
+        required: false
+        type: boolean
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -21,6 +25,13 @@ jobs:
 
       - name: Checkout Branch
         uses: actions/checkout@v2
+
+      - name: Yarn Install and Build
+        if: ${{ inputs.node == true }}
+        run: |
+          cd functions
+          yarn install
+          yarn build
 
       - name: Configure Variables
         id: vars
