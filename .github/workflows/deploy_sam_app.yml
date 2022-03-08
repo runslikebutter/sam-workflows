@@ -27,9 +27,7 @@ jobs:
           cd functions
           yarn install
           yarn build
-          ls
           cd ..
-          ls
 
       - name: Configure Variables
         id: vars
