@@ -15,6 +15,8 @@ on: push
 jobs:
   deploy:
     uses: runslikebutter/sam-workflows/.github/workflows/deploy_sam_app.yml@main
+    with:
+      node: true
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
@@ -34,4 +36,15 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.DEV_AWS_REGION }}
+```
+
+### run_linters
+
+```yaml
+name: lint
+on: pull_request
+
+jobs:
+  lint:
+    uses: runslikebutter/sam-workflows/.github/workflows/run_linters.yml@main
 ```
