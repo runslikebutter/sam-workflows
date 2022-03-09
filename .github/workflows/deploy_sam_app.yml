@@ -21,8 +21,8 @@ jobs:
       run:
         shell: bash
         working-directory: app
-    steps:
 
+    steps:
       - name: Checkout Branch
         uses: actions/checkout@v2
 
@@ -71,3 +71,4 @@ jobs:
             --stack-name "$APP_NAME-$BRANCH_NAME" \
             --parameter-overrides "AppName=$APP_NAME BranchName=$BRANCH_NAME" \
             --s3-prefix "$APP_NAME/$BRANCH_NAME/$GITHUB_RUN_NUMBER"
+            
