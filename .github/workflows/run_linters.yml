@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  eslint:
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,19 +15,11 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@v2
 
-      - name: Run Linter
+      - name: Yarn Install
+        run: yarn install
+
+      - name: Run ESLint
         run: yarn lint
 
-  prettier:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: app/functions
-
-    steps:
-      - name: Checkout Branch
-        uses: actions/checkout@v2
-
-      - name: Run Linter
+      - name: Run Prettier
         run: yarn prettier --check .
