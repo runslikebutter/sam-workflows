@@ -1,0 +1,25 @@
+name: run_linters
+
+on:
+  workflow_call:
+
+jobs:
+  run_linters:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: app/functions
+
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+
+      - name: Yarn Install
+        run: yarn install
+
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Run Prettier
+        run: yarn prettier --check .

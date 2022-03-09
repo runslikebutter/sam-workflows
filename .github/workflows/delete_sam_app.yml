@@ -17,8 +17,8 @@ jobs:
     defaults:
       run:
         shell: bash
-    steps:
 
+    steps:
       - name: Configure Variables
         id: vars
         env:
