@@ -1,0 +1,13 @@
+name: check_semantic_pr
+
+on:
+  workflow_call:
+
+jobs:
+  check_semantic_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for Semantic PR
+        uses: amannn/action-semantic-pull-request@v3.4.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

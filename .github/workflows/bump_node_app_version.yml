@@ -1,0 +1,20 @@
+name: bump_node_app_version
+
+on:
+  workflow_call:
+
+jobs:
+  bump_node_app_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump Version and Tag
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          release-count: 0
+          skip-on-empty: "true"
+          version-file: "./app/functions/package.json"
