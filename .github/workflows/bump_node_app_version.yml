@@ -3,7 +3,7 @@ name: bump_node_app_version
 on:
   workflow_call:
     secrets:
-        GITHUB_TOKEN:
+        GITHUB_BUILD_TOKEN:
           required: true
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_BUILD_TOKEN }}
 
       - name: Bump Version and Tag
         uses: TriPSs/conventional-changelog-action@v3
