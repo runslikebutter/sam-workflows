@@ -17,4 +17,4 @@ jobs:
         with:
           release-count: 0
           skip-on-empty: "true"
-          version-file: "./app/functions/package.json"
+          version-file: "./app/src/package.json"
