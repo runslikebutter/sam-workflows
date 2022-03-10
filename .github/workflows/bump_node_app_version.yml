@@ -2,6 +2,9 @@ name: bump_node_app_version
 
 on:
   workflow_call:
+    secrets:
+        GITHUB_TOKEN:
+          required: true
 
 jobs:
   bump_node_app_version:
@@ -17,4 +20,4 @@ jobs:
         with:
           release-count: 0
           skip-on-empty: "true"
-          version-file: "./app/src/package.json"
+          version-file: "./app/functions/package.json"
