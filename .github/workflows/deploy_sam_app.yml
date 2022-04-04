@@ -37,7 +37,7 @@ jobs:
         id: vars
         env:
           REPOSITORY_NAME: ${{ github.event.repository.name }}
-          REF: ${{ github.event.ref }}
+          REF: ${{ github.ref }}
         run: |
           APP_NAME=${REPOSITORY_NAME::-4}
           BRANCH_NAME=${REF#refs/heads/}
