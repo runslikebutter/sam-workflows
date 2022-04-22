@@ -27,10 +27,14 @@ jobs:
         run: |
           APP_NAME=${REPOSITORY_NAME::-4}
           BRANCH_NAME=${REF#refs/heads/}
+          LOWER_BRANCH_NAME=$(echo $BRANCH_NAME | awk '{ print tolower($0) }')
           echo "::set-output name=app_name::$APP_NAME"
           echo "::set-output name=branch_name::$BRANCH_NAME"
+          echo "::set-output name=lower_branch_name::$LOWER_BRANCH_NAME"
           echo "APP_NAME=$APP_NAME"
           echo "BRANCH_NAME=$BRANCH_NAME"
+          echo "LOWER_BRANCH_NAME=$LOWER_BRANCH_NAME"
+          echo "GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -42,10 +46,10 @@ jobs:
       - name: SAM Delete
         env:
           APP_NAME: ${{ steps.vars.outputs.app_name }}
-          BRANCH_NAME: ${{ steps.vars.outputs.branch_name }}
+          LOWER_BRANCH_NAME: ${{ steps.vars.outputs.lower_branch_name }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           sam delete \
-            --stack-name "$APP_NAME-$BRANCH_NAME" \
+            --stack-name "$APP_NAME-$LOWER_BRANCH_NAME" \
             --region "$AWS_REGION" \
             --no-prompts
