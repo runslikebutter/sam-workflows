@@ -40,14 +40,11 @@ jobs:
           REF: ${{ github.ref }}
         run: |
           APP_NAME=${REPOSITORY_NAME::-4}
-          BRANCH_NAME=${REF#refs/heads/}
-          LOWER_BRANCH_NAME=$(echo $BRANCH_NAME | awk '{ print tolower($0) }')
+          BRANCH_NAME=$(echo $REF#refs/heads/ | awk '{ print tolower($0) }')
           echo "::set-output name=app_name::$APP_NAME"
           echo "::set-output name=branch_name::$BRANCH_NAME"
-          echo "::set-output name=lower_branch_name::$LOWER_BRANCH_NAME"
           echo "APP_NAME=$APP_NAME"
           echo "BRANCH_NAME=$BRANCH_NAME"
-          echo "LOWER_BRANCH_NAME=$LOWER_BRANCH_NAME"
           echo "GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER"
 
       - name: Configure AWS Credentials
@@ -69,9 +66,8 @@ jobs:
         env:
           APP_NAME: ${{ steps.vars.outputs.app_name }}
           BRANCH_NAME: ${{ steps.vars.outputs.branch_name }}
-          LOWER_BRANCH_NAME: ${{ steps.vars.outputs.lower_branch_name }}
         run: |
           sam deploy \
-            --stack-name "$APP_NAME-$LOWER_BRANCH_NAME" \
-            --parameter-overrides "AppName=$APP_NAME BranchName=$LOWER_BRANCH_NAME" \
+            --stack-name "$APP_NAME-$BRANCH_NAME" \
+            --parameter-overrides "AppName=$APP_NAME BranchName=$BRANCH_NAME" \
             --s3-prefix "$APP_NAME/$BRANCH_NAME/$GITHUB_RUN_NUMBER"
