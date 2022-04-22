@@ -40,7 +40,7 @@ jobs:
           REF: ${{ github.ref }}
         run: |
           APP_NAME=${REPOSITORY_NAME::-4}
-          BRANCH_NAME=$(echo $REF#refs/heads/ | awk '{ print tolower($0) }')
+          BRANCH_NAME=$(echo ${REF#refs/heads/} | awk '{ print tolower($0) }')
           echo "::set-output name=app_name::$APP_NAME"
           echo "::set-output name=branch_name::$BRANCH_NAME"
           echo "APP_NAME=$APP_NAME"
