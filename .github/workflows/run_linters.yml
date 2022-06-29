@@ -2,6 +2,10 @@ name: run_linters
 
 on:
   workflow_call:
+    inputs:
+      typescript:
+        required: false
+        type: boolean
 
 jobs:
   run_linters:
@@ -23,3 +27,7 @@ jobs:
 
       - name: Run Prettier
         run: yarn prettier --check .
+
+      - name: Run TypeScript
+        if: ${{ inputs.typescript == true }}
+        run: yarn tsc
