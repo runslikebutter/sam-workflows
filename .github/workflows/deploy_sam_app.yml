@@ -69,5 +69,5 @@ jobs:
         run: |
           sam deploy \
             --stack-name "$APP_NAME-$BRANCH_NAME" \
-            --parameter-overrides "AppName=$APP_NAME BranchName=$BRANCH_NAME" \
+            --parameter-overrides "AppName=$APP_NAME BranchName=$BRANCH_NAME BuildNumber=$GITHUB_RUN_NUMBER" \
             --s3-prefix "$APP_NAME/$BRANCH_NAME/$GITHUB_RUN_NUMBER"
