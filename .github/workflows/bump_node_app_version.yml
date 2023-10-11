@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_BUILD_TOKEN }}
 
       - name: Bump Version and Tag
-        uses: TriPSs/conventional-changelog-action@v3
+        uses: TriPSs/conventional-changelog-action@v4
         with:
           github-token: ${{ secrets.GITHUB_BUILD_TOKEN }}
           release-count: 0

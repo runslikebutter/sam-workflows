@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Yarn Install and Build
         if: ${{ inputs.node == true }}
@@ -48,7 +48,7 @@ jobs:
           echo "GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER"
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
