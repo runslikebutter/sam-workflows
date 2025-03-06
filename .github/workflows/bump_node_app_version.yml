@@ -17,12 +17,14 @@ jobs:
 
       - name: Bump Version and Tag
         id: bump
-        uses: TriPSs/conventional-changelog-action@v4
+        uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.GITHUB_BUILD_TOKEN }}
           release-count: 10
           skip-on-empty: "true"
           version-file: "app/functions/package.json"
+          git-user-name: "bmx-machine"
+          git-user-email: "bmx-machine@butterflymx.com"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
