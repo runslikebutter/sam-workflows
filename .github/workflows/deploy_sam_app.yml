@@ -8,7 +8,7 @@ on:
         type: boolean
       performance:
         required: false
-        type: boolean
+        type: number
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
