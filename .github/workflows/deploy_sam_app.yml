@@ -6,6 +6,10 @@ on:
       node:
         required: false
         type: boolean
+      performance:
+        required: false
+        type: number
+        default: 0
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -59,6 +63,9 @@ jobs:
           sam validate
 
       - name: SAM Build
+        env:
+          # https://github.com/aws/aws-sam-cli/issues/4053#issuecomment-2809486046
+          SAM_CLI_BETA_BUILD_PERFORMANCE: ${{ inputs.performance }}
         run: |
           sam build
 
@@ -66,6 +73,8 @@ jobs:
         env:
           APP_NAME: ${{ steps.vars.outputs.app_name }}
           BRANCH_NAME: ${{ steps.vars.outputs.branch_name }}
+          # https://github.com/aws/aws-sam-cli/issues/4053#issuecomment-2809486046
+          SAM_CLI_BETA_PACKAGE_PERFORMANCE: ${{ inputs.performance }}
         run: |
           sam deploy \
             --stack-name "$APP_NAME-$BRANCH_NAME" \
