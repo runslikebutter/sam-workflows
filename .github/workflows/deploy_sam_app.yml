@@ -9,6 +9,7 @@ on:
       performance:
         required: false
         type: number
+        default: 0
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
