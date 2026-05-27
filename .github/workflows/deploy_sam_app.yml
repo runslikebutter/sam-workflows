@@ -50,6 +50,7 @@ jobs:
           echo "APP_NAME=$APP_NAME"
           echo "BRANCH_NAME=$BRANCH_NAME"
           echo "GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER"
+          echo "Using assume-role branch"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
