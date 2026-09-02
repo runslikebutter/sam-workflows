@@ -10,6 +10,12 @@ on:
         required: false
         type: number
         default: 0
+      role_to_assume:
+        required: true
+        type: string
+      role_session_name:
+        required: true
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -55,8 +61,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::619981303841:role/bmx-github-actions
-          role-session-name: SmartLocksDevGithubActions
+          role-to-assume: ${{ inputs.role_to_assume }}
+          role-session-name: ${{ inputs.role_session_name }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: SAM Validate
