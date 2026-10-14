@@ -17,7 +17,7 @@ jobs:
     uses: runslikebutter/sam-workflows/.github/workflows/deploy_sam_app.yml@main
     with:
       node: true
-      role_to_assume: arn:aws:iam::619981303841:role/bmx-github-actions
+      role_to_assume: arn:aws:iam::<AWS_ACCOUNT_ID>:role/bmx-github-actions
       role_session_name: SmartLocksDevGithubActions
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
@@ -35,7 +35,7 @@ jobs:
   delete:
     uses: runslikebutter/sam-workflows/.github/workflows/delete_sam_app.yml@main
     with:
-      role_to_assume: arn:aws:iam::619981303841:role/bmx-github-actions
+      role_to_assume: arn:aws:iam::<AWS_ACCOUNT_ID>:role/bmx-github-actions
       role_session_name: SmartLocksDevGithubActions
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
