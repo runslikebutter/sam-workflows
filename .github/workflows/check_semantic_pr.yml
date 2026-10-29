@@ -3,14 +3,17 @@ name: check_semantic_pr
 on:
   workflow_call:
     secrets:
+      # Deprecated and unused. Kept so existing callers that still pass it don't fail.
       GITHUB_BUILD_TOKEN:
-        required: true
+        required: false
 
 jobs:
   check_semantic_pr:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - name: Check for Semantic PR
         uses: amannn/action-semantic-pull-request@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_BUILD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
