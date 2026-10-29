@@ -11,13 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        # https://github.com/actions/checkout
         with:
           token: ${{ secrets.GITHUB_BUILD_TOKEN }}
 
       - name: Bump Version and Tag
         id: bump
-        uses: TriPSs/conventional-changelog-action@v5
+        uses: TriPSs/conventional-changelog-action@469f0e5e35831fbd1962706f29f65daf0a5723f2 # v6.5.0
+        # https://github.com/TriPSs/conventional-changelog-action
         with:
           github-token: ${{ secrets.GITHUB_BUILD_TOKEN }}
           release-count: 10
@@ -27,7 +29,7 @@ jobs:
           git-user-email: "bmx-machine@butterflymx.com"
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         # https://github.com/softprops/action-gh-release
         with:
           body_path: ./CHANGELOG.md
