@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Checkout Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Yarn Install and Build
         if: ${{ inputs.node == true }}
@@ -64,7 +64,7 @@ jobs:
           echo "Using assume-role branch"
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ inputs.role_to_assume }}
           role-session-name: ${{ inputs.role_session_name }}
