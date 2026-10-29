@@ -12,12 +12,14 @@ jobs:
     steps:
       - name: Checkout Branch
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        # https://github.com/actions/checkout
         with:
           token: ${{ secrets.GITHUB_BUILD_TOKEN }}
 
       - name: Bump Version and Tag
         id: bump
         uses: TriPSs/conventional-changelog-action@469f0e5e35831fbd1962706f29f65daf0a5723f2 # v6.5.0
+        # https://github.com/TriPSs/conventional-changelog-action
         with:
           github-token: ${{ secrets.GITHUB_BUILD_TOKEN }}
           release-count: 10
