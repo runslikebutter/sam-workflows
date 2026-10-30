@@ -3,30 +3,42 @@ name: bump_node_app_version
 on:
   workflow_call:
     secrets:
-      GITHUB_BUILD_TOKEN:
+      BMX_BOT_GITHUB_APP_PRIVATE_KEY:
         required: true
+      # Deprecated and unused. Kept so existing callers that still pass it don't fail.
+      GITHUB_BUILD_TOKEN:
+        required: false
 
 jobs:
   bump_node_app_version:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        # https://github.com/actions/create-github-app-token
+        with:
+          client-id: ${{ vars.BMX_BOT_GITHUB_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BMX_BOT_GITHUB_APP_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Checkout Branch
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         # https://github.com/actions/checkout
         with:
-          token: ${{ secrets.GITHUB_BUILD_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Bump Version and Tag
         id: bump
         uses: TriPSs/conventional-changelog-action@469f0e5e35831fbd1962706f29f65daf0a5723f2 # v6.5.0
         # https://github.com/TriPSs/conventional-changelog-action
         with:
-          github-token: ${{ secrets.GITHUB_BUILD_TOKEN }}
+          github-token: ${{ steps.app-token.outputs.token }}
           release-count: 10
           skip-on-empty: "true"
           version-file: "app/functions/package.json"
-          git-user-name: "bmx-machine"
-          git-user-email: "bmx-machine@butterflymx.com"
+          git-user-name: "bmx-bot"
+          git-user-email: "bmx-bot@butterflymx.com"
 
       - name: Create release
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3

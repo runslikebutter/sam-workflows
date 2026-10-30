@@ -53,3 +53,33 @@ jobs:
   lint:
     uses: runslikebutter/sam-workflows/.github/workflows/run_linters.yml@main
 ```
+
+### bump_node_app_version
+
+Pushes a version bump commit, changelog and tag using the `bmx-bot` GitHub App. The `bmx-bot` App must be on the bypass list of the protected branch.
+
+```yaml
+name: deploy_dev
+on:
+  push:
+    branches: [main]
+
+jobs:
+  bump_version:
+    uses: runslikebutter/sam-workflows/.github/workflows/bump_node_app_version.yml@main
+    secrets:
+      BMX_BOT_GITHUB_APP_PRIVATE_KEY: ${{ secrets.BMX_BOT_GITHUB_APP_PRIVATE_KEY }}
+```
+
+### check_semantic_pr
+
+```yaml
+name: check_semantic_pr
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  check_semantic_pr:
+    uses: runslikebutter/sam-workflows/.github/workflows/check_semantic_pr.yml@main
+```
