@@ -39,8 +39,10 @@ jobs:
           git-user-email: "bmx-bot@butterflymx.com"
 
       - name: Create release
+        if: steps.bump.outputs.skipped == 'false'
         uses: softprops/action-gh-release@v2
         # https://github.com/softprops/action-gh-release
         with:
+          token: ${{ steps.app-token.outputs.token }}
           body_path: ./CHANGELOG.md
           tag_name: ${{ steps.bump.outputs.tag }}
